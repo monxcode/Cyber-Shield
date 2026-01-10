@@ -1,63 +1,78 @@
-
-**Live Hare:** https://monxcode.github.io/Cyber-Shield/
+**Live Here:** https://monxcode.github.io/Cyber-Shield/
 
 # CyberShield | Tech4Impact
 
-**CyberShield** ek **frontend-only, browser-based cybersecurity awareness tool** hai jo **HTML, Tailwind CSS aur Vanilla JavaScript** se bana hai.  
-Ye users ko suspicious links ya messages analyze karne me help karta hai aur simple language me batata hai **kyon** koi link risky ho sakta hai.
+**CyberShield** is a **frontend-only, browser-based cybersecurity awareness tool** built using **HTML, Tailwind CSS, and Vanilla JavaScript**.  
+It helps users analyze suspicious links or messages and clearly explains **why** a link may be unsafe.
 
-Project **Gen Z–style UI**, glassmorphism, neon gradients aur explainable logic ke saath banaya gaya hai — perfect for **hackathons & demos**.
+The project features a **Gen Z–inspired animated UI**, glassmorphism effects, neon gradients, and fully explainable logic — making it ideal for **hackathons, demos, and learning projects**.
 
 ---
 
 ## What CyberShield Does
 
-Paste karo koi bhi **URL ya message** → **Scan** button dabao →  
-CyberShield turant browser ke andar analysis karta hai aur dikhata hai:
+Paste any **URL or message** → Click **Scan** →  
+CyberShield instantly runs an **in-browser security analysis** and shows:
 
 - Risk Level (Safe / Suspicious / Dangerous)
-- Animated risk meter
-- Clear reasons (human-readable)
-- Safety tips (what to do next)
+- Animated risk progress bar
+- Smooth loading and result transitions
+- Clear, human-readable reasons
+- Context-aware safety tips
 
 ---
 
 ## Key Features
 
-- Pure frontend only (No backend, no database)
-- Instant in-browser analysis
-- Deterministic Rule Engine (Explainable, no black box AI)
-- Modern Gen Z UI (Glass + Neon)
-- Fully responsive (mobile friendly)
-- GitHub Pages compatible
-- Hackathon-ready
+- Frontend-only (No backend, no server, no database)
+- Instant client-side analysis
+- Deterministic Rule Engine (Explainable, no black-box AI)
+- Animated UI (shimmer effects, floating icons, smooth transitions)
+- Glassmorphism + neon gradient design
+- Fully responsive (mobile-first)
+- Deployable on GitHub Pages
+- Hackathon-ready architecture
 
 ---
 
-## Detection Logic (How it Works)
+## Animations & UI Enhancements
 
-CyberShield heuristic-based rules use karta hai, jo phishing patterns detect karte hain  
-(inspired by Google Safe Browsing principles).
+CyberShield uses lightweight CSS animations to improve user experience:
+
+- Floating shield icon in header
+- Shimmer effect on cards
+- Animated loader during scanning
+- Smooth slide-up animation for results
+- Animated risk meter fill based on threat score
+- Hover and focus micro-interactions
+
+All animations are **CSS-based**, keeping performance fast and bundle size minimal.
+
+---
+
+## Detection Logic (How It Works)
+
+CyberShield uses **heuristic-based phishing detection**, inspired by **Google Safe Browsing principles**.
 
 ### Checks Performed
-- HTTP (no HTTPS)
-- IP address based URLs
-- `@` symbol trick
+- HTTP links (no HTTPS)
+- IP address–based URLs
+- `@` symbol deception
 - URL shorteners (bit.ly, tinyurl, etc.)
 - Phishing keywords (login, verify, win, urgent)
-- Too many subdomains
+- Excessive subdomains
 - Risky TLDs (.xyz, .top, .site, etc.)
-- Brand impersonation (fake Google / PayPal / Amazon)
+- Brand impersonation patterns
 
-Har rule ek risk score add karta hai, jisse final level decide hota hai.
+Each rule adds a **risk score**, which determines the final risk level.
 
 ---
 
 ## Risk Levels Explained
 
-- Safe – Link normal lag raha hai, phir bhi alert raho  
-- Suspicious – Kuch red flags mile hain  
-- Dangerous – High risk, bilkul interact mat karo  
+- **Safe** – No common phishing patterns detected  
+- **Suspicious** – Some warning signs present  
+- **Dangerous** – High risk, avoid interaction  
 
 ---
 
@@ -71,29 +86,29 @@ Har rule ek risk score add karta hai, jisse final level decide hota hai.
 
 ---
 
-## Sample Links (Demo)
+## Sample Links (For Demo)
 
 Safe example  
 `https://www.google.com`
 
-Dangerous example (demo purpose)  
+Dangerous example (demo purpose only)  
 `http://verify-google-account.xyz/login`
 
 ---
 
 ## Ideal For
 
-- Google / College Hackathons  
+- Google or college hackathons  
 - Cybersecurity awareness tools  
 - Frontend-only challenges  
-- Student demo projects  
+- Student portfolio projects  
 
 ---
 
 ## Disclaimer
 
-CyberShield ek educational & awareness tool hai.  
-Ye real-time antivirus ya threat-intelligence systems ka replacement nahi hai.
+CyberShield is an **educational and awareness tool**.  
+It does not replace real-time antivirus software or professional threat-intelligence systems.
 
 ---
 
