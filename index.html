@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield | Tech4Impact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff2e9e;
+            --neon-purple: #9d4edd;
+            --dark-bg: #0a0a12;
+            --card-bg: rgba(20, 20, 35, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(255, 46, 158, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.05) 0%, transparent 50%);
+        }
+
+        .cyber-border {
+            position: relative;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+        }
+
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .neon-text {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glow {
+            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.3));
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--neon-cyan);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--neon-cyan) }
+        }
+
+        .hologram-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(0, 243, 255, 0.1),
+                rgba(255, 46, 158, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: hologram 3s linear infinite;
+        }
+
+        @keyframes hologram {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .risk-glow-safe { box-shadow: 0 0 40px rgba(0, 255, 157, 0.3); }
+        .risk-glow-sus { box-shadow: 0 0 40px rgba(255, 215, 0, 0.3); }
+        .risk-glow-danger { box-shadow: 0 0 40px rgba(255, 71, 87, 0.3); }
+
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-6 relative overflow-hidden">
+    
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 grid-pattern pointer-events-none"></div>
+    <div class="scan-line"></div>
+    
+    <!-- Floating Particles -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-400 rounded-full pulse float" style="animation-delay: 0s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-1 h-1 bg-pink-400 rounded-full pulse float" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-3 h-3 bg-purple-400 rounded-full pulse float" style="animation-delay: 2s;"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+        
+        <!-- Header -->
+        <header class="text-center mb-10 md:mb-16 pt-8">
+            <div class="inline-block relative mb-6">
+                <div class="cyber-border rounded-2xl p-4 float">
+                    <i class="fas fa-shield-alt text-4xl neon-text"></i>
+                </div>
+                <div class="absolute -top-2 -right-2 w-4 h-4 bg-cyan-400 rounded-full glow"></div>
+                <div class="absolute -bottom-2 -left-2 w-4 h-4 bg-pink-400 rounded-full glow"></div>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-black mb-4 tracking-tighter">
+                <span class="neon-text">Cyber</span><span class="text-white">Shield</span>
+            </h1>
+            
+            <div class="inline-flex items-center gap-3 cyber-border rounded-full px-6 py-3 mb-4">
+                <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                <p class="text-sm font-semibold tracking-wider text-gray-300 uppercase">
+                    Tech4Impact • Deterministic AI Engine
+                </p>
+            </div>
+            
+            <p class="text-gray-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
+                Frontend-only cybersecurity scanner using Google Safe Browsing–inspired heuristics
+            </p>
+        </header>
+
+        <!-- Main Scanner -->
+        <main class="space-y-8">
+            
+            <!-- Input Card -->
+            <div class="cyber-border rounded-3xl p-6 md:p-8 transition-all duration-500 hover:scale-[1.01]">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-3 h-3 bg-cyan-400 rounded-full glow"></div>
+                    <h2 class="text-xl font-bold text-white">URL/Message Scanner</h2>
+                </div>
+                
+                <div class="relative">
+                    <div class="flex items-center gap-3 px-4 py-3 cyber-border rounded-2xl mb-4">
+                        <i class="fas fa-link text-cyan-400 text-lg"></i>
+                        <input 
+                            type="text" 
+                            id="scanInput"
+                            placeholder="Paste suspicious link or message here..."
+                            class="flex-1 bg-transparent outline-none text-white placeholder:text-gray-500 text-lg"
+                            autocomplete="off"
+                        >
+                        <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                    </div>
+                    
+                    <!-- Quick Examples -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <button data-example="http://secure-login.paypal-verify.xyz/account" 
+                                class="cyber-border rounded-full px-4 py-2 text-sm hover:bg-cyan-500/10 transition-all group">
+                            <i class="fas fa-exclamation-triangle text-amber-400 mr-2 group-hover:rotate-12 transition-transform"></i>
+                            Suspicious URL
+                        </button>
+                        <button data-example="bit.ly/free-iphone-winner" 
+                                class="cyber-border rounded-full px-4 py-2 text-sm hover:bg-pink-500/10 transition-all group">
+                            <i class="fas fa-link text-pink-400 mr-2 group-hover:scale-110 transition-transform"></i>
+                            Shortened Link
+                        </button>
+                        <button data-example="URGENT: Your Netflix account needs verification!" 
+                                class="cyber-border rounded-full px-4 py-2 text-sm hover:bg-purple-500/10 transition-all group">
+                            <i class="fas fa-envelope text-purple-400 mr-2 group-hover:translate-y-0.5 transition-transform"></i>
+                            Phishing Text
+                        </button>
+                    </div>
+                    
+                    <!-- Scan Button -->
+                    <button id="scanBtn" 
+                            class="w-full cyber-border rounded-2xl p-4 bg-gradient-to-r from-cyan-500/20 to-pink-500/20 hover:from-cyan-500/30 hover:to-pink-500/30 transition-all duration-300 group active:scale-95">
+                        <div class="flex items-center justify-center gap-3">
+                            <i class="fas fa-search text-xl neon-text group-hover:rotate-90 transition-transform duration-300"></i>
+                            <span class="text-lg font-bold">Initiate Threat Scan</span>
+                            <i class="fas fa-bolt text-amber-400"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden cyber-border rounded-3xl p-8 text-center">
+                <div class="inline-block relative mb-6">
+                    <div class="w-20 h-20 border-4 border-transparent border-t-cyan-400 border-r-pink-400 rounded-full animate-spin"></div>
+                    <div class="absolute inset-4 border-4 border-transparent border-b-purple-400 border-l-cyan-400 rounded-full animate-spin" style="animation-direction: reverse;"></div>
+                </div>
+                <h3 class="text-xl font-bold mb-3 typewriter">Analyzing with CyberShield Engine</h3>
+                <p class="text-gray-400 text-sm">Running 9 deterministic threat checks...</p>
+                <div class="mt-6 flex justify-center gap-2">
+                    <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0s"></div>
+                    <div class="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden space-y-8 slide-up">
+                
+                <!-- Risk Level Card -->
+                <div class="cyber-border rounded-3xl p-6 md:p-8 relative overflow-hidden risk-glow-sus" id="riskCard">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-pink-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-8">
+                            <div>
+                                <h2 class="text-3xl font-black mb-2" id="riskLevel">ANALYZING</h2>
+                                <p class="text-gray-400" id="riskSummary">Initializing threat assessment...</p>
+                            </div>
+                            <div id="riskIcon" class="cyber-border rounded-2xl p-4 text-4xl">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Meter -->
+                        <div class="mb-8">
+                            <div class="flex justify-between text-sm font-semibold mb-2">
+                                <span class="text-emerald-400">Safe</span>
+                                <span class="text-amber-400">Suspicious</span>
+                                <span class="text-red-400">Dangerous</span>
+                            </div>
+                            <div class="h-3 bg-gray-800 rounded-full overflow-hidden">
+                                <div id="riskFill" class="h-full rounded-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                            <div class="mt-2 flex justify-between text-xs text-gray-500">
+                                <span>Score: <span id="riskScore" class="font-bold">0</span>/10</span>
+                                <span id="threatCount">0 threats detected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat Indicators -->
+                <div class="cyber-border rounded-3xl p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-3 h-3 bg-amber-400 rounded-full glow"></div>
+                        <h2 class="text-xl font-bold text-white">Threat Analysis</h2>
+                    </div>
+                    
+                    <div id="indicatorsGrid" class="grid md:grid-cols-2 gap-4">
+                        <!-- Indicators injected here -->
+                    </div>
+                    
+                    <!-- No Threats -->
+                    <div id="noThreats" class="hidden text-center py-8">
+                        <div class="cyber-border rounded-2xl p-6 inline-block">
+                            <i class="fas fa-check-circle text-4xl text-emerald-400 mb-3"></i>
+                            <p class="font-bold text-lg">No threats detected!</p>
+                            <p class="text-gray-400 text-sm mt-1">This input appears clean based on our heuristics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safety Recommendations -->
+                <div class="cyber-border rounded-3xl p-6 md:p-8 bg-gradient-to-br from-cyan-500/5 to-pink-500/5">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-3 h-3 bg-cyan-400 rounded-full glow"></div>
+                        <h2 class="text-xl font-bold text-white">Safety Recommendations</h2>
+                    </div>
+                    
+                    <div id="tipsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Tips injected here -->
+                    </div>
+                </div>
+
+                <!-- New Scan Button -->
+                <button id="newScanBtn" 
+                        class="w-full cyber-border rounded-2xl p-4 bg-gradient-to-r from-cyan-500/10 to-pink-500/10 hover:from-cyan-500/20 hover:to-pink-500/20 transition-all duration-300 group">
+                    <div class="flex items-center justify-center gap-3">
+                        <i class="fas fa-redo text-xl neon-text group-hover:rotate-180 transition-transform duration-500"></i>
+                        <span class="text-lg font-bold">Perform New Scan</span>
+                    </div>
+                </button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-16 mb-8 text-center">
+            <div class="cyber-border rounded-full px-6 py-3 inline-block">
+                <p class="text-xs font-semibold tracking-wider text-gray-400 uppercase">
+                    Inspired by Google Safe Browsing • Frontend-Only • Deterministic AI
+                </p>
+            </div>
+            <p class="text-gray-500 text-sm mt-4">CyberShield by Team Tech4Impact • All processing happens in your browser</p>
+        </footer>
+    </div>
+
+    <script>
+        // ========================
+        // CYBERSHIELD ENGINE v2.0
+        // ========================
+        
+        // Core Configuration
+        const CYBER_CONFIG = {
+            shorteners: ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'shorte.st', 'is.gd', 'buff.ly', 'ow.ly'],
+            phishingKeywords: ['login', 'verify', 'secure', 'update', 'account', 'banking', 'free', 'win', 'prize', 'claim', 'urgent', 'immediate', 'warning'],
+            popularBrands: ['paypal', 'google', 'apple', 'amazon', 'netflix', 'microsoft', 'instagram', 'facebook', 'whatsapp', 'twitter', 'bank', 'chase'],
+            riskyTLDs: ['.xyz', '.top', '.club', '.work', '.biz', '.info', '.online', '.site', '.ru', '.cn']
+        };
+
+        // Threat Indicators Database
+        const THREAT_INDICATORS = {
+            'http': {
+                name: 'Insecure HTTP Protocol',
+                desc: 'This link uses HTTP instead of HTTPS, meaning your data travels unencrypted.',
+                score: 2,
+                icon: 'fa-unlock',
+                color: 'amber'
+            },
+            'ip_domain': {
+                name: 'IP Address Domain',
+                desc: 'Legitimate sites use domain names, not raw IP addresses. This is highly suspicious.',
+                score: 3,
+                icon: 'fa-server',
+                color: 'red'
+            },
+            'at_symbol': {
+                name: 'Deceptive @ Symbol',
+                desc: '@ symbols can hide the real destination in URLs - a classic phishing trick.',
+                score: 3,
+                icon: 'fa-at',
+                color: 'red'
+            },
+            'shortener': {
+                name: 'URL Shortener Service',
+                desc: 'Shortened links hide the destination, preventing you from seeing where you\'re going.',
+                score: 2,
+                icon: 'fa-link',
+                color: 'amber'
+            },
+            'keywords': {
+                name: 'Phishing Keywords',
+                desc: 'Contains urgency/emotional triggers like "urgent", "free", or "verify" to bypass thinking.',
+                score: 1,
+                icon: 'fa-exclamation',
+                color: 'amber'
+            },
+            'subdomains': {
+                name: 'Excessive Subdomains',
+                desc: 'Too many dots suggests a deceptive URL structure mimicking legitimate sites.',
+                score: 2,
+                icon: 'fa-layer-group',
+                color: 'amber'
+            },
+            'risky_tld': {
+                name: 'Risky Domain Extension',
+                desc: 'Extensions like .xyz or .top are cheap and commonly used for temporary scam sites.',
+                score: 2,
+                icon: 'fa-globe',
+                color: 'red'
+            },
+            'impersonation': {
+                name: 'Brand Impersonation',
+                desc: 'Attempts to mimic popular brands with subtle misspellings or added words.',
+                score: 3,
+                icon: 'fa-mask',
+                color: 'red'
+            },
+            'suspicious_domain': {
+                name: 'Suspicious Domain Name',
+                desc: 'Domain contains words like "secure-login" or "verify-account" commonly used in phishing.',
+                score: 2,
+                icon: 'fa-user-secret',
+                color: 'red'
+            }
+        };
+
+        // ========================
+        // CORE SCANNING ENGINE
+        // ========================
+        class CyberShieldScanner {
+            constructor() {
+                this.version = '2.0.1';
+            }
+
+            // Main scanning function
+            scan(input) {
+                const lowInput = input.toLowerCase().trim();
+                if (!lowInput) return null;
+
+                let totalScore = 0;
+                const detectedThreats = [];
+                const threatDetails = [];
+
+                // 1. HTTP vs HTTPS
+                if (lowInput.startsWith('http://')) {
+                    totalScore += THREAT_INDICATORS.http.score;
+                    detectedThreats.push('http');
+                    threatDetails.push(THREAT_INDICATORS.http);
+                }
+
+                // 2. IP Address Domain
+                if (/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/.test(lowInput)) {
+                    totalScore += THREAT_INDICATORS.ip_domain.score;
+                    detectedThreats.push('ip_domain');
+                    threatDetails.push(THREAT_INDICATORS.ip_domain);
+                }
+
+                // 3. @ Symbol in URL
+                if (lowInput.includes('@') && lowInput.includes('http')) {
+                    totalScore += THREAT_INDICATORS.at_symbol.score;
+                    detectedThreats.push('at_symbol');
+                    threatDetails.push(THREAT_INDICATORS.at_symbol);
+                }
+
+                // 4. URL Shorteners
+                if (CYBER_CONFIG.shorteners.some(s => lowInput.includes(s))) {
+                    totalScore += THREAT_INDICATORS.shortener.score;
+                    detectedThreats.push('shortener');
+                    threatDetails.push(THREAT_INDICATORS.shortener);
+                }
+
+                // 5. Phishing Keywords
+                if (CYBER_CONFIG.phishingKeywords.some(k => lowInput.includes(k))) {
+                    totalScore += THREAT_INDICATORS.keywords.score;
+                    detectedThreats.push('keywords');
+                    threatDetails.push(THREAT_INDICATORS.keywords);
+                }
+
+                // 6. Excessive Subdomains
+                const domainParts = lowInput.split('.');
+                if (domainParts.length > 4) {
+                    totalScore += THREAT_INDICATORS.subdomains.score;
+                    detectedThreats.push('subdomains');
+                    threatDetails.push(THREAT_INDICATORS.subdomains);
+                }
+
+                // 7. Risky TLDs
+                if (CYBER_CONFIG.riskyTLDs.some(tld => lowInput.includes(tld))) {
+                    totalScore += THREAT_INDICATORS.risky_tld.score;
+                    detectedThreats.push('risky_tld');
+                    threatDetails.push(THREAT_INDICATORS.risky_tld);
+                }
+
+                // 8. Brand Impersonation
+                const isImpersonating = CYBER_CONFIG.popularBrands.some(brand => {
+                    const brandPattern = new RegExp(`\\b${brand}[\\-\\.\\d]*\\.`, 'i');
+                    return brandPattern.test(lowInput) && !lowInput.includes(`${brand}.com`);
+                });
+                if (isImpersonating) {
+                    totalScore += THREAT_INDICATORS.impersonation.score;
+                    detectedThreats.push('impersonation');
+                    threatDetails.push(THREAT_INDICATORS.impersonation);
+                }
+
+                // 9. Suspicious Domain Names
+                const suspiciousPatterns = ['secure-', 'verify-', 'login-', 'account-', 'banking-', 'update-'];
+                if (suspiciousPatterns.some(pattern => lowInput.includes(pattern))) {
+                    totalScore += THREAT_INDICATORS.suspicious_domain.score;
+                    detectedThreats.push('suspicious_domain');
+                    threatDetails.push(THREAT_INDICATORS.suspicious_domain);
+                }
+
+                // Determine Risk Level
+                let riskLevel, riskColor, riskIcon;
+                if (totalScore <= 2) {
+                    riskLevel = 'Safe';
+                    riskColor = 'emerald';
+                    riskIcon = 'fa-shield-check';
+                } else if (totalScore <= 5) {
+                    riskLevel = 'Suspicious';
+                    riskColor = 'amber';
+                    riskIcon = 'fa-exclamation-triangle';
+                } else {
+                    riskLevel = 'Dangerous';
+                    riskColor = 'red';
+                    riskIcon = 'fa-skull-crossbones';
+                }
+
+                // Generate Safety Tips
+                const safetyTips = this.generateSafetyTips(riskLevel, detectedThreats);
+
+                return {
+                    score: Math.min(totalScore, 10),
+                    level: riskLevel,
+                    color: riskColor,
+                    icon: riskIcon,
+                    threats: detectedThreats,
+                    threatDetails: threatDetails,
+                    tips: safetyTips,
+                    timestamp: new Date().toISOString()
+                };
+            }
+
+            generateSafetyTips(riskLevel, threats) {
+                const baseTips = [
+                    {
+                        icon: 'fa-lock',
+                        title: 'Always Check HTTPS',
+                        desc: 'Look for the padlock icon in your browser address bar'
+                    },
+                    {
+                        icon: 'fa-eye',
+                        title: 'Inspect URLs Carefully',
+                        desc: 'Check for misspellings or extra words in domain names'
+                    },
+                    {
+                        icon: 'fa-user-shield',
+                        title: 'Use Multi-Factor Auth',
+                        desc: 'Enable 2FA on all important accounts'
+                    }
+                ];
+
+                const threatSpecificTips = [];
+
+                if (threats.includes('shortener')) {
+                    threatSpecificTips.push({
+                        icon: 'fa-expand-alt',
+                        title: 'Expand Shortened Links',
+                        desc: 'Use a URL expander before clicking shortened links'
+                    });
+                }
+
+                if (threats.includes('impersonation')) {
+                    threatSpecificTips.push({
+                        icon: 'fa-trademark',
+                        title: 'Verify Official Sites',
+                        desc: 'Type brand URLs directly instead of clicking links'
+                    });
+                }
+
+                if (riskLevel === 'Dangerous') {
+                    threatSpecificTips.push({
+                        icon: 'fa-ban',
+                        title: 'Avoid Completely',
+                        desc: 'Do not interact with this link in any way'
+                    });
+                }
+
+                return [...baseTips, ...threatSpecificTips].slice(0, 6);
+            }
+        }
+
+        // ========================
+        // UI CONTROLLER
+        // ========================
+        class CyberShieldUI {
+            constructor() {
+                this.scanner = new CyberShieldScanner();
+                this.initElements();
+                this.bindEvents();
+            }
+
+            initElements() {
+                this.elements = {
+                    input: document.getElementById('scanInput'),
+                    scanBtn: document.getElementById('scanBtn'),
+                    loading: document.getElementById('loadingState'),
+                    results: document.getElementById('resultsSection'),
+                    riskCard: document.getElementById('riskCard'),
+                    riskLevel: document.getElementById('riskLevel'),
+                    riskSummary: document.getElementById('riskSummary'),
+                    riskIcon: document.getElementById('riskIcon'),
+                    riskFill: document.getElementById('riskFill'),
+                    riskScore: document.getElementById('riskScore'),
+                    threatCount: document.getElementById('threatCount'),
+                    indicatorsGrid: document.getElementById('indicatorsGrid'),
+                    noThreats: document.getElementById('noThreats'),
+                    tipsGrid: document.getElementById('tipsGrid'),
+                    newScanBtn: document.getElementById('newScanBtn')
+                };
+            }
+
+            bindEvents() {
+                this.elements.scanBtn.addEventListener('click', () => this.performScan());
+                this.elements.input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performScan();
+                });
+
+                this.elements.newScanBtn.addEventListener('click', () => {
+                    this.resetUI();
+                    this.elements.input.focus();
+                });
+
+                // Example buttons
+                document.querySelectorAll('[data-example]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.elements.input.value = e.target.dataset.example;
+                        this.elements.input.focus();
+                    });
+                });
+            }
+
+            async performScan() {
+                const input = this.elements.input.value.trim();
+                if (!input) {
+                    this.showNotification('Enter a URL or message to scan', 'amber');
+                    return;
+                }
+
+                // Show loading
+                this.elements.loading.classList.remove('hidden');
+                this.elements.results.classList.add('hidden');
+
+                // Simulate processing delay
+                await new Promise(resolve => setTimeout(resolve, 1200));
+
+                // Perform scan
+                const result = this.scanner.scan(input);
+
+                // Hide loading
+                this.elements.loading.classList.add('hidden');
+
+                if (!result) {
+                    this.showNotification('Invalid input format', 'red');
+                    return;
+                }
+
+                // Display results
+                this.displayResults(result);
+                this.elements.results.classList.remove('hidden');
+                this.elements.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            displayResults(result) {
+                // Update risk card
+                this.elements.riskLevel.textContent = result.level;
+                this.elements.riskLevel.className = `text-3xl font-black mb-2 text-${result.color}-400`;
+                this.elements.riskSummary.textContent = this.getRiskSummary(result.level, result.score);
+                this.elements.riskIcon.innerHTML = `<i class="fas ${result.icon} text-${result.color}-400"></i>`;
+                
+                // Update risk meter
+                const percentage = Math.min((result.score / 10) * 100, 100);
+                this.elements.riskFill.style.width = `${percentage}%`;
+                this.elements.riskScore.textContent = result.score;
+                this.elements.threatCount.textContent = `${result.threats.length} threats detected`;
+                
+                // Update risk card glow
+                this.elements.riskCard.className = 
+                    `cyber-border rounded-3xl p-6 md:p-8 relative overflow-hidden risk-glow-${result.level.toLowerCase()}`;
+
+                // Update threat indicators
+                this.displayThreatIndicators(result.threatDetails);
+                
+                // Update safety tips
+                this.displaySafetyTips(result.tips);
+            }
+
+            displayThreatIndicators(threats) {
+                this.elements.indicatorsGrid.innerHTML = '';
+                this.elements.noThreats.classList.add('hidden');
+
+                if (threats.length === 0) {
+                    this.elements.noThreats.classList.remove('hidden');
+                    return;
+                }
+
+                threats.forEach(threat => {
+                    const indicatorHTML = `
+                        <div class="cyber-border rounded-2xl p-4 hover:scale-[1.02] transition-transform duration-300">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-${threat.color}-500/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas ${threat.icon} text-${threat.color}-400"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h3 class="font-bold text-white">${threat.name}</h3>
+                                        <span class="text-xs px-2 py-0.5 rounded-full bg-${threat.color}-500/30 text-${threat.color}-300">
+                                            +${threat.score}
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">${threat.desc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    this.elements.indicatorsGrid.innerHTML += indicatorHTML;
+                });
+            }
+
+            displaySafetyTips(tips) {
+                this.elements.tipsGrid.innerHTML = '';
+                
+                tips.forEach(tip => {
+                    const tipHTML = `
+                        <div class="cyber-border rounded-2xl p-4 bg-gradient-to-br from-cyan-500/5 to-pink-500/5 hover:from-cyan-500/10 hover:to-pink-500/10 transition-all duration-300">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-pink-500/20 flex items-center justify-center mb-3">
+                                <i class="fas ${tip.icon} text-cyan-400"></i>
+                            </div>
+                            <h3 class="font-bold text-white mb-1">${tip.title}</h3>
+                            <p class="text-gray-400 text-sm">${tip.desc}</p>
+                        </div>
+                    `;
+                    this.elements.tipsGrid.innerHTML += tipHTML;
+                });
+            }
+
+            getRiskSummary(level, score) {
+                const summaries = {
+                    'Safe': `Vibe check passed! Score: ${score}/10. This appears clean based on our heuristics.`,
+                    'Suspicious': `Multiple red flags detected. Score: ${score}/10. Exercise caution and verify the source.`,
+                    'Dangerous': `Critical threat level! Score: ${score}/10. Avoid interaction and report if possible.`
+                };
+                return summaries[level];
+            }
+
+            resetUI() {
+                this.elements.input.value = '';
+                this.elements.results.classList.add('hidden');
+                this.elements.riskFill.style.width = '0%';
+            }
+
+            showNotification(message, color = 'cyan') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 cyber-border px-4 py-3 rounded-xl bg-${color}-500/10 border-${color}-500/30 z-50 slide-up`;
+                notification.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-${color === 'red' ? 'exclamation-circle' : 'info-circle'} text-${color}-400"></i>
+                        <span class="text-white font-medium">${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('opacity-0', 'translate-x-full');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+        }
+
+        // ========================
+        // INITIALIZE APP
+        // ========================
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new CyberShieldUI();
+            
+            // Add some initial UI effects
+            const input = document.getElementById('scanInput');
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('border-cyan-400/50');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('border-cyan-400/50');
+            });
+            
+            // Add typing effect to placeholder
+            let placeholders = [
+                "Paste suspicious link or message here...",
+                "Enter phishing URL to analyze...",
+                "Drop that sus link here for scanning..."
+            ];
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                input.placeholder = placeholders[currentIndex];
+                currentIndex = (currentIndex + 1) % placeholders.length;
+            }, 3000);
+            
+            console.log('🔒 CyberShield v2.0 initialized');
+            console.log('🚀 Powered by deterministic rule-based AI');
+            console.log('✨ Inspired by Google Safe Browsing heuristics');
+        });
+    </script>
+</body>
+</html>
